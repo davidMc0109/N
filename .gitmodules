@@ -1,0 +1,3 @@
+[submodule "INT_FP_MAC"]
+	path = INT_FP_MAC
+	url = https://github.com/erihsu/INT_FP_MAC.git
