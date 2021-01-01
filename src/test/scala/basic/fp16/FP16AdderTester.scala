@@ -1,18 +1,26 @@
-package fp16
+package basic.fp16
 
 import chisel3._
 import chisel3.iotesters.{Driver, ChiselFlatSpec, PeekPokeTester}
 
 class FP16AdderTests(c: FP16Adder) extends PeekPokeTester(c){
-  poke(c.io.a, 13574)
-  poke(c.io.b, 47499)
-  expect(c.io.c, 16608)
+
+  for(i <- FP16TestData.a.indices){
+    poke(c.io.a, FP16TestData.a(i).asUInt(16.W))
+    poke(c.io.b, FP16TestData.b(i).asUInt(16.W))
+    step(1)
+    Predef.printf("%d + %d = %d get %d\n", FP16TestData.a(i), FP16TestData.b(i), FP16TestData.s(i), peek(c.io.c))
+    if((peek(c.io.c) - FP16TestData.s(i))>2 || (FP16TestData.s(i) - peek(c.io.c)>2)) {
+      println("Fails")
+      fail
+    }
+  }
 }
 
 class FP16AdderTester extends ChiselFlatSpec {
   behavior of "FP16Adder"
   it should s"add normally" in {
-    Driver(() => new FP16Adder, "ivl")(c => new FP16AdderTests(c)) should be (true)
+    Driver(() => new FP16Adder, "verilator")(c => new FP16AdderTests(c)) should be (true)
 //    Driver.execute(
 //      Array("--target-dir", "test_run_dir"),
 //      () => new FP16Adder()

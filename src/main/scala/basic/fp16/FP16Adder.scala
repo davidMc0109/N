@@ -1,8 +1,8 @@
-package fp16
+package basic.fp16
 
 import chisel3._
 import chisel3.stage.ChiselGeneratorAnnotation
-import chisel3.util.{HasBlackBoxPath, HasBlackBoxResource}
+import chisel3.util.HasBlackBoxPath
 import firrtl.options.TargetDirAnnotation
 
 class int_fp_add extends BlackBox with HasBlackBoxPath{
