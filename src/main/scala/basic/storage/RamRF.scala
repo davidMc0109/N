@@ -1,4 +1,4 @@
-package basic.regfile
+package basic.storage
 
 import chisel3._
 
